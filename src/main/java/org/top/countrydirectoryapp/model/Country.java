@@ -82,4 +82,17 @@ public class Country {
     public void setSquare(Long square) {
         this.square = square;
     }
+
+    public String isValid() {
+        if (this.isoAlpha2 != null && this.isoAlpha2.matches("^[A-Z]{2}$")) {
+            return getIsoAlpha2();
+        }
+        if (this.isoAlpha3 != null && this.isoAlpha3.matches("^[A-Z]{3}$")) {
+            return getIsoAlpha3();
+        }
+        if (this.isoNumeric != null && this.isoNumeric.matches("^\\d+$")) {
+            return getIsoNumeric();
+        }
+        return null;
+    }
 }

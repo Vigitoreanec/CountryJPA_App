@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>CountryAppProject</title>
+    <!-- подключение стилей bootstrap -->
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+</head>
+<body>
+<div class="container-fluid text-center">
+    <h1>Редактировать запись</h1>
+
+    <!-- форма редактирования записи -->
+    <form th:method="post" th:action="@{'/countries/edit/' + ${country.isValid()}}" th:object="${country}">
+
+        <!-- наименование shortName-->
+        <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label" for="shortName">Наименование короткое: </label>
+            <div class="col-sm-10">
+                <input class="form-control" type="text" id="shortName" required maxlength="50"
+                       th:field="*{shortName}"/>
+            </div>
+        </div>
+
+        <!-- наименование fullName-->
+        <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label" for="fullName">Наименование короткое: </label>
+            <div class="col-sm-10">
+                <input class="form-control" type="text" id="fullName" required maxlength="100" th:field="*{fullName}"/>
+            </div>
+        </div>
+
+        <!-- код isoAlpha2-->
+        <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label" for="isoAlpha2">Код isoAlpha2: </label>
+            <div class="col-sm-10">
+                <input class="form-control" type="text" id="isoAlpha2" pattern="[A-Z]{2}" required
+                       th:disabled="${codeType == 'alpha2'}"
+                       th:field="*{isoAlpha2}"/>
+            </div>
+        </div>
+
+        <!-- код isoAlpha3-->
+        <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label" for="isoAlpha3">Код isoAlpha3: </label>
+            <div class="col-sm-10">
+                <input class="form-control" type="text" id="isoAlpha3"
+                       th:disabled="${codeType == 'alpha3'}"
+                       th:field="*{isoAlpha3}"/>
+            </div>
+        </div>
+
+        <!-- код isoNumeric-->
+        <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label" for="isoNumeric">Код isoNumeric: </label>
+            <div class="col-sm-10">
+                <input class="form-control" type="number" id="isoNumeric"
+                       th:disabled="${codeType == 'numeric'}"
+                       th:field="*{isoNumeric}"/>
+            </div>
+        </div>
+
+        <!-- Население Страны -->
+        <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label" for="population">Население Страны: </label>
+            <div class="col-sm-10">
+                <input class="form-control" type="number" id="population" th:field="*{population}"/>
+            </div>
+        </div>
+
+        <!-- Площадь Страны -->
+        <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label" for="square">Площадь Страны: </label>
+            <div class="col-sm-10">
+                <input class="form-control" type="number" id="square" th:field="*{square}"/>
+            </div>
+        </div>
+        <!-- кнопка отправки формы -->
+        <div class="mb-3 row">
+            <div class="col-sm-12">
+                <button class="btn btn-success form-control">Сохранить</button>
+            </div>
+        </div>
+    </form>
+
+    <p><a th:href="@{/countries}">К списку аэропортов</a></p>
+    <p><a th:href="@{/}">На Index</a></p>
+</div>
+
+<!-- подключение скриптов bootstrap -->
+<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

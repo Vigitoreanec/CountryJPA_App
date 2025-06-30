@@ -10,7 +10,7 @@ public interface CountryStorage {
     List<Country> getAll();
 
     // получение страны по коду
-    Optional<Country> get(String isoAloha2);
+    Optional<Country> get(String code);
 
     // сохранение новой страны
     void store(Country country);

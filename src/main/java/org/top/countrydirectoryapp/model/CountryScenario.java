@@ -21,8 +21,14 @@ public class CountryScenario {
 
     // получение списка страны по коду
     public Country get(String code) {
-        validationCode(code);
-        Optional<Country> country = storage.get(code);
+        Optional<Country> country = Optional.empty();
+        if (isAlpha2(code)) {
+            country = storage.get(code);
+        } else if (isAlpha3(code)) {
+            country = storage.get(code);
+        } else if (isNumeric(code)) {
+            country = storage.get(code);
+        }
         if (country.isEmpty()) {
             throw new CountryNotFoundException(code);
         }
@@ -32,8 +38,7 @@ public class CountryScenario {
     // сохранение новой страны
     public void store(Country country) {
         String code = country.getIsoAlpha2();
-        validationCode(code);
-        if(storage.get(code).isPresent()) {
+        if (storage.get(code).isPresent()) {
             throw new DuplicatedCodeException(code);
         }
         storage.store(country);
@@ -41,29 +46,34 @@ public class CountryScenario {
 
     // редактирование страны по коду
     public void edit(Country country) {
-        String code = country.getIsoAlpha2();
-        validationCode(code);
-        if(storage.get(code).isEmpty()) {
-            throw new CountryNotFoundException(code);
+        if (!isAlpha2(country.getIsoAlpha2()) && !isAlpha3(country.getIsoAlpha3())
+                && !isNumeric(country.getFullName())) {
+            throw new InvalidCodeException("Code Country");
         }
         storage.edit(country);
     }
 
     // удаление страны по коду
-    public void delete(String isoAloha2) {
-        validationCode(isoAloha2);
-        if(storage.get(isoAloha2).isEmpty()) {
-            throw new CountryNotFoundException(isoAloha2);
+    public void delete(String code) {
+
+        if (storage.get(code).isEmpty()) {
+            throw new CountryNotFoundException(code);
         }
-        storage.delete(isoAloha2);
+        if (!isAlpha2(code) && !isAlpha3(code) && !isNumeric(code)) {
+            throw new InvalidCodeException(code);
+        }
+        storage.delete(code);
     }
 
-    private void validationCode(String code) {
-        if (code == null) {
-            throw new InvalidCodeException("null", "code is null");
-        }
-        if (!code.matches("[A-Z]{2}")) {
-            throw new InvalidCodeException(code, "code can contains only two uppercase letters");
-        }
+    public static boolean isAlpha2(String code) {
+        return code.length() == 2 && code.matches("[A-Z]{2}");
+    }
+
+    public static boolean isAlpha3(String code) {
+        return code.length() == 3 && code.matches("[A-Z]{3}");
+    }
+
+    public static boolean isNumeric(String code) {
+        return code.matches("\\d+");
     }
 }

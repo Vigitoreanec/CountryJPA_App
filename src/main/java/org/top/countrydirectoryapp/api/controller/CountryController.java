@@ -21,9 +21,27 @@ public class CountryController {
         return countries.listAll();
     }
 
-    @GetMapping("{isoAloha2}")
-    public Country get(@PathVariable String isoAloha2) {
-        return countries.get(isoAloha2);
+    @GetMapping("{code}")
+    public Country get(@PathVariable String code) {
+        return countries.get(code);
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public void store(@RequestBody Country country) {
+        countries.store(country);
+    }
+
+    @PatchMapping
+    @ResponseStatus(HttpStatus.OK)
+    public void edit(@RequestBody Country country) {
+        countries.edit(country);
+    }
+
+    @DeleteMapping("{code}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable String code) {
+        countries.delete(code);
     }
 
     @ExceptionHandler(CountryNotFoundException.class)
